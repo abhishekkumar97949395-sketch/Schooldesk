@@ -1,0 +1,39 @@
+name: SchoolDesk code checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  javascript:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Check standalone JavaScript
+        run: node --check scripts.js
+      - name: Check inline JavaScript in index.html
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const html = fs.readFileSync('index.html', 'utf8');
+          const scripts = [...html.matchAll(/<script\\b([^>]*)>([\\s\\S]*?)<\\/script\\s*>/gi)];
+          let checked = 0;
+          for (let i = 0; i < scripts.length; i++) {
+            const attrs = scripts[i][1] || '';
+            const body = scripts[i][2] || '';
+            if (/\\bsrc\\s*=/.test(attrs) || /\\btype\\s*=\\s*["']application\\/(?:json|ld\\+json)["']/i.test(attrs) || !body.trim()) continue;
+            const file = `/tmp/schooldesk-inline-${i}.js`;
+            fs.writeFileSync(file, body);
+            checked++;
+            require('child_process').execFileSync('node', ['--check', file], { stdio: 'inherit' });
+          }
+          if (!checked) throw new Error('No inline JavaScript blocks were found in index.html');
+          console.log(`Checked ${checked} inline JavaScript block(s).`);
+          NODE
