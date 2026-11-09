@@ -1,0 +1,2 @@
+[functions.schooldesk-student-login]
+verify_jwt = false
