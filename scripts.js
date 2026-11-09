@@ -369,7 +369,7 @@ $("loginForm").addEventListener("submit",async e=>{
 async function showStudentAdmissionGate(record,id){
  const gate=$("studentAdmissionGate"),portal=$("studentFullPortal");if(!gate)return;portal.hidden=true;gate.hidden=false;$("studentIdentity").hidden=true;$("myApplication").hidden=true;
  const app=record.admission_application||{};const status=String(record.admission_status||"not_submitted").toLowerCase();
- if(status==="pending"&&/^\d{12}$/.test(String(app.aadhaar||record.aadhaar_number||"").replace(/\D/g,""))&&/^[6-9]\d{9}$/.test(String(app.studentPhone||record.phone||"").replace(/\D/g,""))){gate.innerHTML="<h3>आपका Admission Form प्राप्त हो गया है</h3><p>आपका फॉर्म Admin Approval के लिए Pending है। Approval मिलने के बाद पूरी Student Website अपने आप खुल जाएगी।</p><p><b>Status:</b> Pending Admin Approval</p>";return;}
+ if(status==="pending"&&/^\d{12}$/.test(String(app.aadhaar||record.aadhaar_number||"").replace(/\D/g,""))&&/^[6-9]\d{9}$/.test(String(app.studentPhone||app.phone||record.phone||"").replace(/\D/g,""))){gate.innerHTML="<h3>आपका Admission Form प्राप्त हो गया है</h3><p>आपका फॉर्म Admin Approval के लिए Pending है। Approval मिलने के बाद पूरी Student Website अपने आप खुल जाएगी।</p><p><b>Status:</b> Pending Admin Approval</p>";return;}
  gate.innerHTML=`<h3>📝 Student Admission Form</h3><p>अभी आपके लिए केवल Admission Form उपलब्ध है। Admin Approval के बाद ही पूरी Student Website खुलेगी।</p>
  <form id="cloudStudentAdmissionForm" class="student-form">
  <div class="field"><label>विद्यार्थी का नाम</label><input name="fullName" required value="${safeText(app.fullName||record.student_name||"")}"></div>
