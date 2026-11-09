@@ -1,0 +1,17 @@
+SchoolDesk handoff note
+
+This archive preserves the uploaded website and SQL files.
+
+Packaging correction:
+- The student-login Edge Function source is placed at:
+  supabase/functions/schooldesk-student-login/index.ts
+- Supabase function configuration is placed at:
+  supabase/config.toml
+
+Important:
+- The uploaded archive did not contain the schooldesk-delete-student Edge Function source.
+  The website calls that function, so permanent delete cannot be redeployed from this
+  archive until its source is recovered or safely recreated.
+- This archive has not been deployed to GitHub, Netlify, or Supabase.
+- Run SQL migrations only after checking the live database schema and taking a backup.
+- Never add the Supabase service-role key to frontend files or share it in chat.
