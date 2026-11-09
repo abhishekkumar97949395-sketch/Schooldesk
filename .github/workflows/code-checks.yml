@@ -23,12 +23,12 @@ jobs:
           node <<'NODE'
           const fs = require('fs');
           const html = fs.readFileSync('index.html', 'utf8');
-          const scripts = [...html.matchAll(/<script\\b([^>]*)>([\\s\\S]*?)<\\/script\\s*>/gi)];
+          const scripts = [...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script\s*>/gi)];
           let checked = 0;
           for (let i = 0; i < scripts.length; i++) {
             const attrs = scripts[i][1] || '';
             const body = scripts[i][2] || '';
-            if (/\\bsrc\\s*=/.test(attrs) || /\\btype\\s*=\\s*["']application\\/(?:json|ld\\+json)["']/i.test(attrs) || !body.trim()) continue;
+            if (/\bsrc\s*=/.test(attrs) || /\btype\s*=\s*["']application\/(?:json|ld\+json)["']/i.test(attrs) || !body.trim()) continue;
             const file = `/tmp/schooldesk-inline-${i}.js`;
             fs.writeFileSync(file, body);
             checked++;
