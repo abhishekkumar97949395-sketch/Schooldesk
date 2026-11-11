@@ -920,6 +920,32 @@ header>.admin-profile .admin-profile-info{min-width:0!important}
   header>.admin-profile .admin-photo-avatar{width:48px!important;height:48px!important;min-width:48px!important}
   header>.admin-profile .admin-profile-info{display:none!important}
 }
+
+/* Final admin header layout: logo/brand stay left, profile stays in last column. */
+body.admin-sidebar-mode header{
+  display:grid!important;
+  grid-template-columns:auto auto minmax(0,1fr) auto!important;
+  align-items:center!important;
+  column-gap:12px!important;
+  width:100%!important;
+}
+body.admin-sidebar-mode header>.logo{grid-column:1!important;grid-row:1!important;order:0!important}
+body.admin-sidebar-mode header>div:nth-child(2){grid-column:2!important;grid-row:1!important;order:0!important;min-width:0}
+body.admin-sidebar-mode header>.school{grid-column:3!important;grid-row:1!important;order:0!important;margin:0!important;justify-self:center!important}
+body.admin-sidebar-mode header>.admin-profile{
+  grid-column:4!important;grid-row:1!important;order:0!important;
+  justify-self:end!important;align-self:center!important;
+  display:flex!important;margin:0!important;
+}
+body.admin-sidebar-mode header>.admin-profile .admin-photo-avatar{
+  width:60px!important;height:60px!important;min-width:60px!important;
+}
+@media(max-width:760px){
+  body.admin-sidebar-mode header{grid-template-columns:auto minmax(0,1fr) auto!important;column-gap:8px!important}
+  body.admin-sidebar-mode header>.school{display:none!important}
+  body.admin-sidebar-mode header>.admin-profile{grid-column:3!important;justify-self:end!important}
+  body.admin-sidebar-mode header>.admin-profile .admin-photo-avatar{width:48px!important;height:48px!important;min-width:48px!important}
+}
 </style></head><body><div class="toolbar"><button onclick="window.print()">Print / Save as PDF</button><span> &nbsp; Class ${esc(classValue)} · ${students.length} students</span></div>${Array.from({length:Math.ceil(students.length/2)},(_,i)=>`<main class="page">${students.slice(i*2,i*2+2).map((r,j)=>{const a=appOf(r),studentName=a.fullName||r.student_name||"—",father=a.fatherName||r.father_name||"—",mother=a.motherName||r.mother_name||"—",studentId=r.admission_no||r.student_login_id||r.id,school=schoolFor(),rowsForClass=schedule.slice().sort((x,y)=>String(x.date).localeCompare(String(y.date))).map((x,k)=>`<tr><td>${k+1}</td><td>${esc(x.subject)}</td><td>${esc(x.paper||"—")}</td><td>${esc(formatExamDate(x.date))}</td><td>${esc(x.time)}</td><td>${esc(x.shift||"—")}</td><td>${esc(x.day||"—")}</td></tr>`).join("");return `<article class="admit-card"><header><h2>${esc(school)}</h2><p>Paraur, Shahjahanpur, Uttar Pradesh 242127</p><h3>प्रवेश पत्र / ADMIT CARD</h3></header><section class="student-details"><div><b>विद्यार्थी का नाम:</b> ${esc(studentName)}<br><b>पिता का नाम:</b> ${esc(father)}<br><b>माता का नाम:</b> ${esc(mother)}</div><div><b>कक्षा:</b> ${esc(classValue)}<br><b>प्रवेश / Login ID:</b> ${esc(studentId)}<br><b>सत्र:</b> ${esc(a.session||"—")}</div>${a.photoDataUrl?`<img src="${esc(a.photoDataUrl)}" alt="Student photo">`:""}</section><table><thead><tr><th>क्र.</th><th>विषय</th><th>पेपर</th><th>तारीख</th><th>समय</th><th>शिफ्ट</th><th>दिन</th></tr></thead><tbody>${rowsForClass}</tbody></table><div class="foot"><span>परीक्षा केन्द्र: ${esc(school)}</span><span>प्रधानाचार्य के हस्ताक्षर: __________</span></div></article>`}).join("")}</main>`).join("")}</body></html>`;
   printWindow.document.open();printWindow.document.write(html);printWindow.document.close();
   if(output)output.textContent=`Class ${classValue}: ${students.length} Approved students के Admit Cards तैयार हैं। नई window में Print / Save as PDF दबाएँ।`;
