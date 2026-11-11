@@ -353,8 +353,8 @@ async function renderCloudStudentApprovals(){
       show("Admission Approve हो गया। Student Login ID और Password Setup लिंक "+mailResult.email+" पर भेज दिया गया है।",false);
       alert("Admission Approve हो गया। Student Login ID और सुरक्षित Password Setup लिंक विद्यार्थी के registered Email पर भेज दिया गया है। ईमेल Inbox/Spam जाँचें।");
      }catch(mailError){
-      show("Admission Approve हो गया, लेकिन Login ID ईमेल नहीं भेजा जा सका: "+(mailError?.message||String(mailError))+"। Supabase Edge Function deploy करें और Resend secrets सेट करें।",false);
-      alert("Admission Approve सेव हो गया, लेकिन ईमेल नहीं भेजा जा सका। Supabase में schooldesk-send-student-login-email deploy करें और Resend API Key तथा verified sender सेट करें।");
+      show("Admission Approve हो गया, लेकिन Login ID ईमेल नहीं भेजा जा सका: "+(mailError?.message||String(mailError))+"। Supabase Edge Function और Google email service की settings जाँचें।",false);
+      alert("Admission Approve सेव हो गया, लेकिन ईमेल नहीं भेजा जा सका। Supabase में schooldesk-send-student-login-email और Google email service की settings जाँचें।");
      }
      renderApprovals();
     }catch(err){show(err?.message||"Admission Approval विफल हुआ।",false);approve.disabled=false;}
@@ -374,7 +374,7 @@ async function loadStudentLoginDetails(){
  if(!client){box.textContent="Supabase कनेक्शन उपलब्ध नहीं है।";return;}
  box.innerHTML="<p>लोड हो रहा है…</p>";
  try{
-  const {data:rows,error}=await client.from("students").select("student_name,email,student_login_id,status,admission_status").eq("is_deleted",false).order("id",{ascending:false});
+  const {data:rows,error}=await client.from("students").select("id,student_name,email,student_login_id,status,admission_status").eq("is_deleted",false).order("id",{ascending:false});
   if(error)throw error;
   box.innerHTML="";
   if(!rows||!rows.length){box.textContent="कोई विद्यार्थी रिकॉर्ड नहीं मिला।";return;}
@@ -396,8 +396,8 @@ async function loadStudentLoginDetails(){
     try{
      const email=String(row.email||"").trim().toLowerCase();
      if(!email)throw new Error("विद्यार्थी का पंजीकृत ईमेल उपलब्ध नहीं है। पहले Email जोड़ें।");
-     await schooldeskSendPasswordSetupLink(client,email);
-     alert("Supabase ने Password Setup ईमेल भेजने का अनुरोध स्वीकार किया है। ईमेल पहुँचना SMTP सेटिंग पर निर्भर है। पुराना पासवर्ड नहीं बदलेगा; विद्यार्थी लिंक खोलकर नया Password बनाएगा।");
+     const {data:mailResult,error:mailError}=await client.functions.invoke("schooldesk-send-student-login-email",{body:{studentId:row.id}}); if(mailError||!mailResult?.ok)throw new Error(mailResult?.error||mailError?.message||"SchoolDesk ईमेल सेवा से संदेश नहीं भेजा जा सका।");
+     alert("SchoolDesk Login ID और सुरक्षित Password Setup Link विद्यार्थी के registered Email पर भेज दिया गया है। Inbox/Spam जाँचें।");
     }catch(err){alert("Reset Link नहीं भेजा जा सका: "+(err?.message||"ईमेल/URL सेटिंग जाँचें।"));}
     finally{reset.disabled=false;}
    };
