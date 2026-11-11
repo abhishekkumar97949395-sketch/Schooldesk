@@ -660,18 +660,19 @@ async function showStudentAdmissionGate(record,id){
   }
   image.close?.();
   const inRange=candidates.filter(x=>x.bytes>=25*1024&&x.bytes<=40*1024).sort((a,b)=>Math.abs(a.bytes-32*1024)-Math.abs(b.bytes-32*1024))[0];
-  const selected=inRange||candidates.filter(x=>x.bytes<=40*1024).sort((a,b)=>Math.abs(a.bytes-32*1024)-Math.abs(b.bytes-32*1024))[0];
-  if(!selected)throw new Error("फोटो को 40 KB से कम कम्प्रेस नहीं किया जा सका। दूसरी फोटो चुनें।");
+  const selected=inRange;
+  if(!selected)throw new Error("फोटो का आकार 25–40 KB नहीं बन पाया। कृपया थोड़ी साफ और पर्याप्त resolution वाली दूसरी फोटो चुनें।");
   const dataUrl=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>reject(new Error("फोटो पढ़ी नहीं जा सकी।"));reader.readAsDataURL(selected.blob);});
   return {dataUrl,bytes:selected.bytes,inRange:!!inRange};
  }
  const photoInput=gate.querySelector("#cloudStudentPhoto"),photoPreview=gate.querySelector("#cloudStudentPhotoPreview"),photoStatus=gate.querySelector("#cloudStudentPhotoStatus");
  let compressedPhoto=app.photoDataUrl||"";
+ let compressedPhotoBytes=Number(app.photoSizeBytes||0);
  if(photoInput)photoInput.addEventListener("change",async()=>{
   const file=photoInput.files?.[0];if(!file)return;
   photoStatus.style.color="#175cd3";photoStatus.textContent="फोटो कम्प्रेस हो रही है…";
-  try{const result=await compressSchoolDeskPhoto(file);compressedPhoto=result.dataUrl;photoPreview.src=compressedPhoto;photoPreview.style.display="block";photoStatus.style.color="#067647";photoStatus.textContent="कम्प्रेस फोटो: "+(result.bytes/1024).toFixed(1)+" KB"+(result.inRange?" — सही आकार":" — 40 KB से कम; स्रोत फोटो छोटी थी");}
-  catch(err){compressedPhoto=app.photoDataUrl||"";photoInput.value="";photoStatus.style.color="#b42318";photoStatus.textContent=err.message;photoPreview.src=compressedPhoto;photoPreview.style.display=compressedPhoto?"block":"none";}
+  try{const result=await compressSchoolDeskPhoto(file);compressedPhoto=result.dataUrl;compressedPhotoBytes=result.bytes;photoPreview.src=compressedPhoto;photoPreview.style.display="block";photoStatus.style.color="#067647";photoStatus.textContent="कम्प्रेस फोटो: "+(result.bytes/1024).toFixed(1)+" KB"+(result.inRange?" — सही आकार":" — 40 KB से कम; स्रोत फोटो छोटी थी");}
+  catch(err){compressedPhoto=app.photoDataUrl||"";compressedPhotoBytes=Number(app.photoSizeBytes||0);photoInput.value="";photoStatus.style.color="#b42318";photoStatus.textContent=err.message;photoPreview.src=compressedPhoto;photoPreview.style.display=compressedPhoto?"block":"none";}
  });
  const form=gate.querySelector("#cloudStudentAdmissionForm");
  if(!form){gate.insertAdjacentHTML("beforeend",'<p style="color:#b42318">त्रुटि: Admission Form तैयार नहीं हुआ। कृपया पेज Refresh करें।</p>');return;}
@@ -710,7 +711,7 @@ async function showStudentAdmissionGate(record,id){
      delete data.photoFile;
      if(!compressedPhoto)throw new Error("कृपया विद्यार्थी की फोटो चुनें।");
      data.photoDataUrl=compressedPhoto;
-     data.photoSizeBytes=Math.round((compressedPhoto.length*3)/4);
+     data.photoSizeBytes=compressedPhotoBytes;
      data.contactEmail=String(record.email||app.contactEmail||sessionData.session.user.email||"").trim().toLowerCase();
      data.phone=phone;data.studentPhone=phone;data.aadhaar=aadhaar;
      data.state=selectedText(stateSel);data.stateCode=stateSel.value;
