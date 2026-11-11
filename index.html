@@ -347,16 +347,10 @@ async function renderCloudStudentApprovals(){
     try{
      const {error:updateError}=await client.from("students").update({admission_status:"approved",status:"active"}).eq("id",row.id);
      if(updateError)throw new Error("Admission approval सेव नहीं हुआ: "+updateError.message);
-     const emailAddress=String(row.email||app.contactEmail||"").trim().toLowerCase();
-     try{
-      const result=await schooldeskSendPasswordSetupLink(client,emailAddress);
-      const redirectNote=result.redirectConfigured?" लिंक इस वेबसाइट पर वापस आएगा।":" अभी वेबसाइट content:// से खुली है; ईमेल का redirect Supabase Site URL पर जाएगा। Netlify/Live Server URL को Supabase Redirect URLs में जोड़ना जरूरी है।";
-      show("Admission Approve हो गया। Supabase ने "+result.email+" पर Password Setup ईमेल भेजने का अनुरोध स्वीकार किया। ईमेल पहुँचना SMTP सेटिंग पर निर्भर है।"+redirectNote,false);
-      alert("Admission Approve हो गया। Supabase ने Password Setup ईमेल का अनुरोध स्वीकार किया है। अगर ईमेल Inbox में न आए तो Spam देखें और Supabase में Custom SMTP चालू करें। विद्यार्थी लिंक खोलकर अपना Password स्वयं बनाएगा।");
-     }catch(mailError){
-      show("Admission Approve हो गया, लेकिन Password Setup ईमेल नहीं भेजा जा सका: "+(mailError?.message||String(mailError))+"। Supabase Authentication > SMTP Settings और URL Configuration जाँचें।",false);
-      alert("Admission Approve हो गया, लेकिन ईमेल नहीं भेजा गया। कारण: "+(mailError?.message||String(mailError))+"। Supabase में Custom SMTP और Redirect URL सेट करना होगा।");
-     }
+     const {data:mailResult,error:mailError}=await client.functions.invoke("schooldesk-send-student-login-email",{body:{studentId:row.id}});
+     if(mailError||!mailResult?.ok)throw new Error(mailResult?.error||mailError?.message||"Email service ने अनुरोध स्वीकार नहीं किया।");
+     show("Admission Approve हो गया। Student Login ID और Password Setup लिंक "+mailResult.email+" पर भेज दिया गया है।",false);
+     alert("Admission Approve हो गया। Student Login ID और सुरक्षित Password Setup लिंक विद्यार्थी के registered Email पर भेज दिया गया है। ईमेल Inbox/Spam जाँचें।");
      renderApprovals();
     }catch(err){show(err?.message||"Admission Approval विफल हुआ।",false);approve.disabled=false;}
    };
