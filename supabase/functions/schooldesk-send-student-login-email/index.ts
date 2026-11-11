@@ -35,7 +35,7 @@ Deno.serve(async (req: Request) => {
     }
 
     const authHeader = req.headers.get("Authorization") || "";
-    const token = authHeader.replace(/^Bearer\\s+/i, "");
+    const token = authHeader.replace(/^Bearer\s+/i, "");
     if (!token) return reply(401, { error: "Admin sign-in required." });
 
     const authClient = createClient(url, anonKey, {
