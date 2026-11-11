@@ -347,10 +347,15 @@ async function renderCloudStudentApprovals(){
     try{
      const {error:updateError}=await client.from("students").update({admission_status:"approved",status:"active"}).eq("id",row.id);
      if(updateError)throw new Error("Admission approval सेव नहीं हुआ: "+updateError.message);
-     const {data:mailResult,error:mailError}=await client.functions.invoke("schooldesk-send-student-login-email",{body:{studentId:row.id}});
-     if(mailError||!mailResult?.ok)throw new Error(mailResult?.error||mailError?.message||"Email service ने अनुरोध स्वीकार नहीं किया।");
-     show("Admission Approve हो गया। Student Login ID और Password Setup लिंक "+mailResult.email+" पर भेज दिया गया है।",false);
-     alert("Admission Approve हो गया। Student Login ID और सुरक्षित Password Setup लिंक विद्यार्थी के registered Email पर भेज दिया गया है। ईमेल Inbox/Spam जाँचें।");
+     try{
+      const {data:mailResult,error:mailError}=await client.functions.invoke("schooldesk-send-student-login-email",{body:{studentId:row.id}});
+      if(mailError||!mailResult?.ok)throw new Error(mailResult?.error||mailError?.message||"Email service ने अनुरोध स्वीकार नहीं किया।");
+      show("Admission Approve हो गया। Student Login ID और Password Setup लिंक "+mailResult.email+" पर भेज दिया गया है।",false);
+      alert("Admission Approve हो गया। Student Login ID और सुरक्षित Password Setup लिंक विद्यार्थी के registered Email पर भेज दिया गया है। ईमेल Inbox/Spam जाँचें।");
+     }catch(mailError){
+      show("Admission Approve हो गया, लेकिन Login ID ईमेल नहीं भेजा जा सका: "+(mailError?.message||String(mailError))+"। Supabase Edge Function deploy करें और Resend secrets सेट करें।",false);
+      alert("Admission Approve सेव हो गया, लेकिन ईमेल नहीं भेजा जा सका। Supabase में schooldesk-send-student-login-email deploy करें और Resend API Key तथा verified sender सेट करें।");
+     }
      renderApprovals();
     }catch(err){show(err?.message||"Admission Approval विफल हुआ।",false);approve.disabled=false;}
    };
