@@ -139,3 +139,31 @@ NETLIFY ROOT 404 FIX (9 November 2026)
 LATEST UPDATE — INDIA ADDRESS SELECTION (09-Nov-2026)
 Student Admission Form now has cascading selectors for State/UT, District, Sub-district/Tehsil and optional Development Block using the public India LGD Index API (community mirror of Ministry of Panchayati Raj LGD data; attribution: Government Open Data License India). Students enter a six-digit PIN code and choose a matching Post Office/locality from the India Post lookup list. House number/street/locality remains a small optional field; the full address is assembled automatically and saved in admission_application.
 The LGD mirror currently provides state, district, sub-district and block hierarchy; it does not provide a village-level endpoint. The PIN-code lookup therefore lists post offices/localities, which may not be a complete census/LGD village roster. Internet access is required for the live lists. The form blocks submission unless the required location selections, valid 10-digit mobile number and 12-digit Aadhaar format are present. This validates number format only; it does not verify Aadhaar with UIDAI or verify phone ownership by OTP.
+
+
+
+
+STUDENT LOGIN ID EMAIL DELIVERY UPDATE (11-Nov-2026)
+- After Admin approves an Admission Form, the website now invokes the secure
+  Edge Function: schooldesk-send-student-login-email.
+- The function verifies the signed-in Admin UID, checks that the student record is
+  active and admission-approved, reads the Login ID and registered Auth email,
+  creates a one-time Supabase password-recovery link, and emails both the Login ID
+  and password setup link using Resend. It does not reveal or email any password.
+- Deploy from the project root:
+  supabase functions deploy schooldesk-send-student-login-email
+- Configure these Edge Function secrets in Supabase (Project Settings > Edge
+  Functions > Secrets, or with Supabase CLI):
+  RESEND_API_KEY = the private API key from your Resend account
+  SCHOOLDESK_FROM_EMAIL = a sender address on a domain verified with Resend
+  SUPABASE_URL, SUPABASE_ANON_KEY and SUPABASE_SERVICE_ROLE_KEY are also required;
+  Supabase normally provides the first two, and the service-role key must be set
+  securely as a function secret. Never put any secret in index.html or GitHub.
+- Add https://abhiparaur.netlify.app/ to Supabase Authentication > URL Configuration
+  Redirect URLs. The Edge Function uses this HTTPS URL for the recovery link.
+- Email delivery is not active until the function is deployed and Resend secrets
+  plus a verified sender are configured. A GitHub commit alone cannot configure
+  the school's Supabase project, create a Resend account, or verify a sending domain.
+- Test only with a school-controlled test account first. Confirm the Login ID and
+  password setup link arrive, the link returns to the Netlify site, and the student
+  can set a password. Do not use real student data for the first test.
