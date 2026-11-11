@@ -26,4 +26,4 @@ jobs:
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
         run: |
-          supabase functions deploy schooldesk-send-student-login-email --project-ref zyksfbdwdtpjbcuyejkd
+          supabase functions deploy schooldesk-send-student-login-email --project-ref zyksfbdwdtpjbcuyejkd --yes
