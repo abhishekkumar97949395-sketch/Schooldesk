@@ -160,6 +160,19 @@ body.portal-mode .pending-item{box-shadow:0 4px 16px rgba(6,75,152,.08)}
 .recycle-note{background:#fff7e6;border:1px solid #f2d39a;color:#704b00;padding:10px;border-radius:8px;line-height:1.5}
 @media(max-width:560px){.recycle-row{grid-template-columns:auto minmax(0,1fr)}.recycle-row>div:last-child{grid-column:2;display:flex;gap:6px;flex-wrap:wrap}}
 
+
+/* Centered admin/student login landing page: remove decorative side panels only */
+@media(min-width:1101px){
+  main{display:flex;justify-content:center;align-items:center;max-width:100%;padding:38px 18px}
+  main>.left,main>.right{display:none!important}
+  main>.card{width:min(100%,620px);margin:0 auto}
+}
+@media(max-width:1100px){
+  main{display:flex;justify-content:center;align-items:center}
+  main>.left,main>.right{display:none!important}
+  main>.card{width:100%;max-width:620px;margin:0 auto}
+}
+
 </style></head>
 <body>
 <header><div class="logo">AKS</div><div><div class="brand">School<span>Desk</span></div><div class="tagline">Smart School Management System</div></div><div class="school">RAJA AJAY KUMAR SINGH INTER COLLEGE<small>PARAUR SHAHJAHANPUR UTTAR PRADESH (242127)</small></div><nav class="nav"><span>⌂ &nbsp;Home</span><span>ⓘ &nbsp;Help / Support</span></nav></header>
