@@ -199,7 +199,7 @@ body.admin-sidebar-mode header>.admin-profile .admin-photo-avatar{width:60px!imp
 
 </style></head>
 <body>
-<header><div class="logo">AKS</div><div><div class="brand">School<span>Desk</span></div><div class="tagline">Smart School Management System</div></div><div class="school">RAJA AJAY KUMAR SINGH INTER COLLEGE<small>PARAUR SHAHJAHANPUR UTTAR PRADESH (242127)</small></div><div class="admin-profile" id="adminProfile"><button type="button" class="admin-photo-avatar" id="changeAdminPhoto" aria-label="Change Admin Profile Photo" title="Change profile photo"><img id="adminProfilePhoto" alt="Admin profile photo" src="" hidden><span id="adminProfilePlaceholder" aria-hidden="true">👤</span></button><input id="adminPhotoInput" type="file" accept="image/jpeg,image/png,image/webp" hidden><div class="admin-profile-info"><p class="welcome" id="welcome">Welcome, Abhishek Kumar Singh</p><p class="admin-photo-note" id="adminPhotoNote">फोटो बदलने के लिए फोटो पर क्लिक करें।</p></div></div></header>
+<header><div class="logo">AKS</div><div><div class="brand">School<span>Desk</span></div><div class="tagline">Smart School Management System</div></div><div class="school">RAJA AJAY KUMAR SINGH INTER COLLEGE<small>PARAUR SHAHJAHANPUR UTTAR PRADESH (242127)</small></div><div class="admin-profile" id="adminProfile"><button type="button" class="admin-photo-avatar" id="changeAdminPhoto" aria-label="Change Admin Profile Photo" title="Change profile photo"><img id="adminProfilePhoto" alt="Admin profile photo" src="" hidden><span id="adminProfilePlaceholder" aria-hidden="true">👤</span></button><input id="adminPhotoInput" type="file" accept="image/jpeg,image/png,image/webp" hidden><div class="admin-profile-info"><p class="welcome" id="welcome">Welcome, Abhishek Kumar Singh</p></div></div></header>
 <main>
 <aside class="left"><p class="slogan">Better Education<br>Brighter Future<div class="underline"></div></p><div class="school-art"><div class="sun"></div><div class="cloud"></div><div class="flag"></div><div class="building"><div class="wing"></div><div class="door"></div><div class="wing"></div></div></div><ul class="features"><li><span class="ico">♟</span>Student Records</li><li><span class="ico">♙</span>Admission Management</li><li><span class="ico">▤</span>Fee Management</li><li><span class="ico">▣</span>Result Management</li><li><span class="ico">▦</span>TC / CC / Admit Card</li><li><span class="ico">▦</span>Timetable &amp; More</li></ul><p class="slogan">Manage Your School<br>Easily with SchoolDesk<div class="underline"></div></p></aside>
 <section class="card"><div class="card-brand"><div class="mini-logo">AKS</div><div><strong>School<span>Desk</span></strong><small>Smart School Management System</small></div></div>
@@ -302,10 +302,43 @@ function schoolDeskShowLogin(messageText){schoolDeskSessionActive=false;if(schoo
 function schoolDeskStartSession(role,preserveLastActivity=false){schoolDeskSessionActive=true;try{sessionStorage.setItem(schoolDeskRoleKey,role);if(!preserveLastActivity||!sessionStorage.getItem(schoolDeskLastActivityKey))schoolDeskTouch()}catch(_){}if(schoolDeskIdleTimer)clearInterval(schoolDeskIdleTimer);schoolDeskIdleTimer=setInterval(async()=>{let last=0;try{last=Number(sessionStorage.getItem(schoolDeskLastActivityKey)||0)}catch(_){}if(schoolDeskSessionActive&&last&&Date.now()-last>=300000){schoolDeskSessionActive=false;clearInterval(schoolDeskIdleTimer);schoolDeskIdleTimer=null;try{await window.schooldeskSupabase?.auth.signOut()}catch(_){}schoolDeskShowLogin("5 मिनट तक कोई गतिविधि नहीं हुई, इसलिए सुरक्षा के लिए लॉगआउट कर दिया गया। कृपया दोबारा Login करें।")}},5000);}
 ["pointerdown","keydown","touchstart","scroll","click","input"].forEach(evt=>document.addEventListener(evt,schoolDeskTouch,{passive:true}));
 
-const adminPhotoStorageKey="schooldesk_admin_profile_photo_v1";
-function renderAdminProfilePhoto(){const photo=localStorage.getItem(adminPhotoStorageKey)||"";const img=$("adminProfilePhoto"),placeholder=$("adminProfilePlaceholder");if(!img||!placeholder)return;if(photo){img.src=photo;img.hidden=false;placeholder.hidden=true}else{img.removeAttribute("src");img.hidden=true;placeholder.hidden=false}}
+const adminPhotoBucket="schooldesk-public";
+const adminPhotoPath="admin-profile";
+async function renderAdminProfilePhoto(){
+ const img=$("adminProfilePhoto"),placeholder=$("adminProfilePlaceholder"),client=window.schooldeskSupabase;
+ if(!img||!placeholder)return;
+ try{
+  const {data,error}=await client.auth.getUser();
+  if(error||data?.user?.id!==window.SCHOOLDESK_ADMIN_UID)throw new Error("Admin session unavailable");
+  const path=adminPhotoPath+"/"+data.user.id+".jpg";
+  const {data:publicData}=client.storage.from(adminPhotoBucket).getPublicUrl(path);
+  img.src=publicData.publicUrl+"?v="+Date.now();img.hidden=false;placeholder.hidden=true;
+  img.onerror=()=>{img.removeAttribute("src");img.hidden=true;placeholder.hidden=false};
+ }catch(_){img.removeAttribute("src");img.hidden=true;placeholder.hidden=false}
+}
 $("changeAdminPhoto")?.addEventListener("click",()=> $("adminPhotoInput")?.click());
-$("adminPhotoInput")?.addEventListener("change",async e=>{const file=e.target.files?.[0];if(!file)return;const note=$("adminPhotoNote");try{if(!["image/jpeg","image/png","image/webp"].includes(file.type))throw new Error("कृपया JPG, PNG या WebP फोटो चुनें।");if(file.size>5*1024*1024)throw new Error("फोटो 5 MB से छोटी होनी चाहिए।");const bitmap=await createImageBitmap(file);const scale=Math.min(1,512/Math.max(bitmap.width,bitmap.height));const canvas=document.createElement("canvas");canvas.width=Math.max(1,Math.round(bitmap.width*scale));canvas.height=Math.max(1,Math.round(bitmap.height*scale));canvas.getContext("2d").drawImage(bitmap,0,0,canvas.width,canvas.height);bitmap.close?.();const blob=await new Promise(resolve=>canvas.toBlob(resolve,"image/jpeg",0.82));if(!blob)throw new Error("फोटो तैयार नहीं हो सकी।");const dataUrl=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>reject(new Error("फोटो पढ़ी नहीं जा सकी।"));reader.readAsDataURL(blob)});localStorage.setItem(adminPhotoStorageKey,dataUrl);renderAdminProfilePhoto();note.textContent="Profile photo सफलतापूर्वक बदल गई।";}catch(err){note.textContent=err?.message||"फोटो सेव नहीं हो सकी।";}finally{e.target.value=""}});
+$("adminPhotoInput")?.addEventListener("change",async e=>{
+ const file=e.target.files?.[0];if(!file)return;
+ try{
+  const client=window.schooldeskSupabase;
+  const {data:auth,error:authError}=await client.auth.getUser();
+  if(authError||auth?.user?.id!==window.SCHOOLDESK_ADMIN_UID)throw new Error("केवल सत्यापित Admin ही फोटो बदल सकता है।");
+  if(!["image/jpeg","image/png","image/webp"].includes(file.type))throw new Error("कृपया JPG, PNG या WebP फोटो चुनें।");
+  if(file.size>5*1024*1024)throw new Error("फोटो 5 MB से छोटी होनी चाहिए।");
+  const bitmap=await createImageBitmap(file);
+  const scale=Math.min(1,512/Math.max(bitmap.width,bitmap.height));
+  const canvas=document.createElement("canvas");canvas.width=Math.max(1,Math.round(bitmap.width*scale));canvas.height=Math.max(1,Math.round(bitmap.height*scale));
+  canvas.getContext("2d").drawImage(bitmap,0,0,canvas.width,canvas.height);bitmap.close?.();
+  const blob=await new Promise(resolve=>canvas.toBlob(resolve,"image/jpeg",0.82));
+  if(!blob)throw new Error("फोटो तैयार नहीं हो सकी।");
+  const path=adminPhotoPath+"/"+auth.user.id+".jpg";
+  const {error:uploadError}=await client.storage.from(adminPhotoBucket).upload(path,blob,{contentType:"image/jpeg",upsert:true,cacheControl:"3600"});
+  if(uploadError)throw uploadError;
+  await renderAdminProfilePhoto();
+  alert("Admin की फोटो ऑनलाइन सेव हो गई है। अब दूसरे डिवाइस पर भी यही फोटो दिखाई देगी।");
+ }catch(err){alert(err?.message||"फोटो सेव नहीं हो सकी।");}
+ finally{e.target.value=""}
+});
 function getUsers(){try{return JSON.parse(localStorage.getItem("schooldesk_demo_students")||"{}")}catch(_){return {}}}
 function saveUsers(users){localStorage.setItem("schooldesk_demo_students",JSON.stringify(users))}
 function renderApprovals(){
