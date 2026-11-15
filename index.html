@@ -633,10 +633,10 @@ $("loginType").addEventListener("change",()=>{const selected=$("loginType").valu
 document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>setMode(b.dataset.mode)));
 $("toggle").onclick=()=>{let p=$("password");p.type=p.type==="password"?"text":"password";$("toggle").textContent=p.type==="password"?"◉":"◎"};
 $("forgot").onclick=async()=>{
- if($("loginType").value!=="student"){show("Student Login चुनें।");return;}
+ if($("loginType").value!=="student"){show("Forgot Password के लिए Student Login चुनें।");return;}
  const id=$("username").value.trim().toUpperCase();
- if(!id){show("पहले अपनी Student Login ID भरें, फिर Forgot Password दबाएँ।");$("username").focus();return;}
- show("अपनी पहचान सत्यापित कराने के लिए स्कूल Admin से संपर्क करें। Admin सत्यापन के बाद आपके पंजीकृत ईमेल पर सुरक्षित Reset Link भेजेगा।",false);
+ if(!id){show("पहले अपनी Student Login ID भरें। फिर Forgot Password दबाएँ।");$("username").focus();return;}
+ show("Password Reset के लिए अपनी Student Login ID स्कूल Admin को दें। Admin स्कूल रिकॉर्ड से आपकी पहचान सत्यापित करके Student Login Details में “Reset Link भेजें” दबाएगा। सुरक्षित लिंक आपके पंजीकृत ईमेल पर आएगा। Admin आपका पुराना Password नहीं देख सकता।");
 };
 $("back").onclick=()=>{clear();$("loginForm").reset();$("loginType").value="admin";setMode("admin");$("username").type="email";$("username").value=window.SCHOOLDESK_ADMIN_EMAIL;$("studentTabs").classList.remove("visible")};
 $("studentName").addEventListener("input",()=>{if(mode==="signup"){$("username").value="";$("username").placeholder="Login ID submit ke baad automatic milegi";}});
@@ -1054,5 +1054,24 @@ if(!document.documentElement.dataset.schooldeskHindiTransliterationGlobal){
 }
 
 $("loginType").value="student";setMode("login");
+// Remember Me safely stores only the Student Login ID, never the password.
+const schoolDeskRememberKey="schooldesk_remembered_student_id_v1";
+try{
+ const rememberedStudentId=localStorage.getItem(schoolDeskRememberKey)||"";
+ if(rememberedStudentId){$("username").value=rememberedStudentId;$("remember").checked=true;}
+}catch(_){}
+$("remember").addEventListener("change",()=>{
+ try{
+  if(!$("remember").checked)localStorage.removeItem(schoolDeskRememberKey);
+  else if($("loginType").value==="student"&&$("username").value.trim())localStorage.setItem(schoolDeskRememberKey,$("username").value.trim().toUpperCase());
+ }catch(_){}
+});
+$("username").addEventListener("input",()=>{
+ if($("loginType").value!=="student")return;
+ try{
+  if($("remember").checked&&$("username").value.trim())localStorage.setItem(schoolDeskRememberKey,$("username").value.trim().toUpperCase());
+  else if(!$("remember").checked)localStorage.removeItem(schoolDeskRememberKey);
+ }catch(_){}
+});
 })();
 </script></body></html>
