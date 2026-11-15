@@ -173,7 +173,31 @@ body.portal-mode .pending-item{box-shadow:0 4px 16px rgba(6,75,152,.08)}
   main>.card{width:100%;max-width:620px;margin:0 auto}
 }
 
-.admin-profile [hidden]{display:none!important}.admin-profile{display:none;align-items:center;gap:10px;margin-left:auto;padding:0;border:0;background:transparent;min-width:0}.admin-photo-avatar{width:58px;height:58px;padding:0;border:3px solid #ffbf00;border-radius:50%;overflow:hidden;background:#dceeff;color:#07509b;display:grid;place-items:center;flex:none;cursor:pointer;box-shadow:0 2px 8px #001f4433}.admin-photo-avatar img{width:100%;height:100%;object-fit:cover}.admin-photo-avatar span{font-size:29px;line-height:1}.admin-photo-avatar:focus-visible{outline:3px solid #fff;outline-offset:3px}.admin-profile-info{min-width:0;color:#fff}.admin-profile-info .welcome{margin:0;padding:0;background:transparent;color:#fff;font-weight:700;font-size:14px}.admin-photo-note{font-size:11px;color:#e1efff;margin:3px 0 0;max-width:190px}@media(max-width:760px){body.admin-sidebar-mode header{gap:8px;padding-right:10px}body.admin-sidebar-mode header .nav{display:none}body.admin-sidebar-mode .admin-profile{gap:0}body.admin-sidebar-mode .admin-profile-info{display:block;min-width:0}body.admin-sidebar-mode .admin-profile-info .welcome{font-size:12px;white-space:nowrap}body.admin-sidebar-mode .admin-photo-note{display:none}body.admin-sidebar-mode .admin-photo-avatar{width:46px;height:46px}}body.admin-sidebar-mode .admin-profile{display:flex}body.admin-sidebar-mode .admin-profile{background:transparent!important;border:0!important;padding:0!important;margin:0!important;box-shadow:none!important}body.admin-sidebar-mode .admin-profile-info .welcome{background:transparent!important;border:0!important;padding:0!important;color:#fff!important;box-shadow:none!important} header{display:flex;align-items:center;gap:14px}header>.logo{order:0;flex:none}header>div:nth-child(2){order:1}header>.school{order:2;margin-left:auto;text-align:center}header>.admin-profile{order:3;margin-left:auto;flex:none}@media(max-width:600px){header{justify-content:space-between}header>.school{display:none}header>.admin-profile{margin-left:auto}header>.logo{margin-right:2px}body.admin-sidebar-mode .admin-profile-info{display:block;min-width:0}body.admin-sidebar-mode .admin-profile-info .welcome{font-size:12px;white-space:nowrap}body.admin-sidebar-mode .admin-photo-note{display:none}}</style></head>
+.admin-profile [hidden]{display:none!important}.admin-profile{display:none;align-items:center;gap:10px;margin-left:auto;padding:0;border:0;background:transparent;min-width:0}.admin-photo-avatar{width:58px;height:58px;padding:0;border:3px solid #ffbf00;border-radius:50%;overflow:hidden;background:#dceeff;color:#07509b;display:grid;place-items:center;flex:none;cursor:pointer;box-shadow:0 2px 8px #001f4433}.admin-photo-avatar img{width:100%;height:100%;object-fit:cover}.admin-photo-avatar span{font-size:29px;line-height:1}.admin-photo-avatar:focus-visible{outline:3px solid #fff;outline-offset:3px}.admin-profile-info{min-width:0;color:#fff}.admin-profile-info .welcome{margin:0;padding:0;background:transparent;color:#fff;font-weight:700;font-size:14px}.admin-photo-note{font-size:11px;color:#e1efff;margin:3px 0 0;max-width:190px}@media(max-width:760px){body.admin-sidebar-mode header{gap:8px;padding-right:10px}body.admin-sidebar-mode header .nav{display:none}body.admin-sidebar-mode .admin-profile{gap:0}body.admin-sidebar-mode .admin-profile-info{display:block;min-width:0}body.admin-sidebar-mode .admin-profile-info .welcome{font-size:12px;white-space:nowrap}body.admin-sidebar-mode .admin-photo-note{display:none}body.admin-sidebar-mode .admin-photo-avatar{width:46px;height:46px}}body.admin-sidebar-mode .admin-profile{display:flex}body.admin-sidebar-mode .admin-profile{background:transparent!important;border:0!important;padding:0!important;margin:0!important;box-shadow:none!important}body.admin-sidebar-mode .admin-profile-info .welcome{background:transparent!important;border:0!important;padding:0!important;color:#fff!important;box-shadow:none!important} header{display:flex;align-items:center;gap:14px}header>.logo{order:0;flex:none}header>div:nth-child(2){order:1}header>.school{order:2;margin-left:auto;text-align:center}header>.admin-profile{order:3;margin-left:auto;flex:none}@media(max-width:600px){header{justify-content:space-between}header>.school{display:none}header>.admin-profile{margin-left:auto}header>.logo{margin-right:2px}body.admin-sidebar-mode .admin-profile-info{display:block;min-width:0}body.admin-sidebar-mode .admin-profile-info .welcome{font-size:12px;white-space:nowrap}body.admin-sidebar-mode .admin-photo-note{display:none}}
+/* Cloudflare preview: keep the school logo left and Admin photo at the far right. */
+body.admin-sidebar-mode header{
+  display:grid!important;
+  grid-template-columns:auto auto minmax(0,1fr) auto!important;
+  align-items:center!important;
+  column-gap:12px!important;
+  width:100%!important;
+}
+body.admin-sidebar-mode header>.logo{grid-column:1!important;grid-row:1!important;order:0!important}
+body.admin-sidebar-mode header>div:nth-child(2){grid-column:2!important;grid-row:1!important;order:0!important;min-width:0}
+body.admin-sidebar-mode header>.school{grid-column:3!important;grid-row:1!important;order:0!important;margin:0!important;justify-self:center!important}
+body.admin-sidebar-mode header>.admin-profile{
+  grid-column:4!important;grid-row:1!important;order:0!important;
+  justify-self:end!important;align-self:center!important;display:flex!important;margin:0!important;
+}
+body.admin-sidebar-mode header>.admin-profile .admin-photo-avatar{width:60px!important;height:60px!important;min-width:60px!important}
+@media(max-width:760px){
+  body.admin-sidebar-mode header{grid-template-columns:auto minmax(0,1fr) auto!important;column-gap:8px!important}
+  body.admin-sidebar-mode header>.school{display:none!important}
+  body.admin-sidebar-mode header>.admin-profile{grid-column:3!important;justify-self:end!important}
+  body.admin-sidebar-mode header>.admin-profile .admin-photo-avatar{width:48px!important;height:48px!important;min-width:48px!important}
+}
+
+</style></head>
 <body>
 <header><div class="logo">AKS</div><div><div class="brand">School<span>Desk</span></div><div class="tagline">Smart School Management System</div></div><div class="school">RAJA AJAY KUMAR SINGH INTER COLLEGE<small>PARAUR SHAHJAHANPUR UTTAR PRADESH (242127)</small></div><div class="admin-profile" id="adminProfile"><button type="button" class="admin-photo-avatar" id="changeAdminPhoto" aria-label="Change Admin Profile Photo" title="Change profile photo"><img id="adminProfilePhoto" alt="Admin profile photo" src="" hidden><span id="adminProfilePlaceholder" aria-hidden="true">👤</span></button><input id="adminPhotoInput" type="file" accept="image/jpeg,image/png,image/webp" hidden><div class="admin-profile-info"><p class="welcome" id="welcome">Welcome, Abhishek Kumar Singh</p><p class="admin-photo-note" id="adminPhotoNote">फोटो बदलने के लिए फोटो पर क्लिक करें।</p></div></div></header>
 <main>
@@ -999,47 +1023,3 @@ if(!document.documentElement.dataset.schooldeskHindiTransliterationGlobal){
 $("loginType").value="student";setMode("login");
 })();
 </script></body></html>
-
-
-/* Keep the school logo on the far left and Admin photo on the far right. */
-body.admin-sidebar-mode header{
-  display:flex!important;
-  align-items:center!important;
-  justify-content:space-between!important;
-  gap:12px!important;
-  width:100%!important;
-  box-sizing:border-box!important;
-}
-body.admin-sidebar-mode header>.logo{
-  order:0!important;
-  flex:0 0 auto!important;
-  margin-right:8px!important;
-}
-body.admin-sidebar-mode header>div:nth-child(2){
-  order:1!important;
-  flex:0 1 auto!important;
-  min-width:0!important;
-}
-body.admin-sidebar-mode header>.school{
-  order:2!important;
-  flex:1 1 auto!important;
-  min-width:0!important;
-  margin:0 12px 0 auto!important;
-  text-align:center!important;
-}
-body.admin-sidebar-mode header>.admin-profile{
-  order:3!important;
-  display:flex!important;
-  flex:0 0 auto!important;
-  margin:0 0 0 auto!important;
-  align-self:center!important;
-}
-@media(max-width:760px){
-  body.admin-sidebar-mode header{gap:8px!important;padding-right:10px!important}
-  body.admin-sidebar-mode header>.school{display:none!important}
-  body.admin-sidebar-mode header>div:nth-child(2){flex:1 1 auto!important}
-  body.admin-sidebar-mode header>.admin-profile{margin-left:auto!important}
-  body.admin-sidebar-mode header>.admin-profile .admin-photo-avatar{
-    width:48px!important;height:48px!important;min-width:48px!important;
-  }
-}
