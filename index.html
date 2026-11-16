@@ -618,6 +618,8 @@ function setupAdminSidebar(){
  const labels=["👥 Student Records","📋 All Students Register","📢 Publish Notice","📚 Academic Management","🗓️ Timetable & Exam Scheme","🎫 Class-wise Admit Cards","📩 Student Requests Inbox"];
  const refreshers=[()=>renderAdminTools(),()=>renderStudentMasterRegister(),()=>renderAdminTools(),()=>renderAdminTools(),()=>{renderExtendedAdmin();renderExamSchemes()},()=>{},()=>renderExtendedAdmin()];
  panels.forEach((el,i)=>entries.push({label:labels[i]||("⚙️ Tool "+(i+1)),el,onShow:refreshers[i]}));
+ // Keep every Admin tool panel closed until its own sidebar button is selected.
+ entries.forEach(entry=>{entry.el.hidden=true;entry.el.style.display="none";});
  if(heading)heading.remove();
  entries.forEach((entry,i)=>{const b=document.createElement("button");b.type="button";b.textContent=entry.label;b.onclick=()=>{entries.forEach((x,j)=>{x.el.hidden=j!==i;x.el.style.display=j===i?"":"none";nav.children[j].classList.toggle("active",j===i);nav.children[j].setAttribute("aria-current",j===i?"page":"false")});if(typeof entry.onShow==="function")entry.onShow();};nav.append(b);content.append(entry.el);});
  layout.append(nav,content);tools.append(layout);
