@@ -580,8 +580,8 @@ document.addEventListener("click",ev=>{
 });
 
 function setupAdminSidebar(){
- const tools=$("adminTools"); if(!tools)return; document.body.classList.add("admin-sidebar-mode"); if(tools.dataset.sidebarReady==="1")return;
- tools.dataset.sidebarReady="1";
+ const tools=$("adminTools"); if(!tools)return; document.body.classList.add("admin-sidebar-mode"); if(tools.dataset.sidebarReady==="1" && tools.querySelector(".admin-layout"))return;
+ tools.dataset.sidebarReady="0";
  const heading=tools.querySelector("h3"); const panels=[...tools.querySelectorAll(":scope > .pending-item")];
  const approval=$("approvalPanel");
  const layout=document.createElement("div");layout.className="admin-layout";
@@ -612,7 +612,7 @@ function setupAdminSidebar(){
  panels.forEach((el,i)=>entries.push({label:labels[i]||("⚙️ Tool "+(i+1)),el,onShow:refreshers[i]}));
  if(heading)heading.remove();
  entries.forEach((entry,i)=>{const b=document.createElement("button");b.type="button";b.textContent=entry.label;b.onclick=()=>{entries.forEach((x,j)=>{x.el.hidden=j!==i;x.el.style.display=j===i?"":"none";nav.children[j].classList.toggle("active",j===i);nav.children[j].setAttribute("aria-current",j===i?"page":"false")});if(typeof entry.onShow==="function")entry.onShow();};nav.append(b);content.append(entry.el);});
- layout.append(nav,content);tools.append(layout);
+ layout.append(nav,content);tools.append(layout);tools.dataset.sidebarReady="1";
  const addForm=document.getElementById("adminAddStudentForm");if(addForm){
  const phoneInput=$("adminNewStudentPhone"),phoneOtpInput=$("adminPhoneOtp"),phoneOtpMessage=$("adminPhoneOtpMessage");
  let verifiedPhone="",otpRequestPhone="";
