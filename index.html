@@ -173,7 +173,45 @@ body.portal-mode .pending-item{box-shadow:0 4px 16px rgba(6,75,152,.08)}
   main>.card{width:100%;max-width:620px;margin:0 auto}
 }
 
-.admin-profile [hidden]{display:none!important}.admin-profile{display:none;align-items:center;gap:10px;margin-left:auto;padding:0;border:0;background:transparent;min-width:0}.admin-photo-avatar{width:58px;height:58px;padding:0;border:3px solid #ffbf00;border-radius:50%;overflow:hidden;background:#dceeff;color:#07509b;display:grid;place-items:center;flex:none;cursor:pointer;box-shadow:0 2px 8px #001f4433}.admin-photo-avatar img{width:100%;height:100%;object-fit:cover}.admin-photo-avatar span{font-size:29px;line-height:1}.admin-photo-avatar:focus-visible{outline:3px solid #fff;outline-offset:3px}.admin-profile-info{min-width:0;color:#fff}.admin-profile-info .welcome{margin:0;padding:0;background:transparent;color:#fff;font-weight:700;font-size:14px}.admin-photo-note{font-size:11px;color:#e1efff;margin:3px 0 0;max-width:190px}@media(max-width:760px){body.admin-sidebar-mode header{gap:8px;padding-right:10px}body.admin-sidebar-mode header .nav{display:none}body.admin-sidebar-mode .admin-profile{gap:0}body.admin-sidebar-mode .admin-profile-info{display:block;min-width:0}body.admin-sidebar-mode .admin-profile-info .welcome{font-size:12px;white-space:nowrap}body.admin-sidebar-mode .admin-photo-note{display:none}body.admin-sidebar-mode .admin-photo-avatar{width:46px;height:46px}}body.admin-sidebar-mode .admin-profile{display:flex}body.admin-sidebar-mode .admin-profile{background:transparent!important;border:0!important;padding:0!important;margin:0!important;box-shadow:none!important}body.admin-sidebar-mode .admin-profile-info .welcome{background:transparent!important;border:0!important;padding:0!important;color:#fff!important;box-shadow:none!important} header{display:flex;align-items:center;gap:14px}header>.logo{order:0;flex:none}header>div:nth-child(2){order:1}header>.school{order:2;margin-left:auto;text-align:center}header>.admin-profile{order:3;margin-left:auto;flex:none}@media(max-width:600px){header{justify-content:space-between}header>.school{display:none}header>.admin-profile{margin-left:auto}header>.logo{margin-right:2px}body.admin-sidebar-mode .admin-profile-info{display:block;min-width:0}body.admin-sidebar-mode .admin-profile-info .welcome{font-size:12px;white-space:nowrap}body.admin-sidebar-mode .admin-photo-note{display:none}}</style></head>
+.admin-profile [hidden]{display:none!important}.admin-profile{display:none;align-items:center;gap:10px;margin-left:auto;padding:0;border:0;background:transparent;min-width:0}.admin-photo-avatar{width:58px;height:58px;padding:0;border:3px solid #ffbf00;border-radius:50%;overflow:hidden;background:#dceeff;color:#07509b;display:grid;place-items:center;flex:none;cursor:pointer;box-shadow:0 2px 8px #001f4433}.admin-photo-avatar img{width:100%;height:100%;object-fit:cover}.admin-photo-avatar span{font-size:29px;line-height:1}.admin-photo-avatar:focus-visible{outline:3px solid #fff;outline-offset:3px}.admin-profile-info{min-width:0;color:#fff}.admin-profile-info .welcome{margin:0;padding:0;background:transparent;color:#fff;font-weight:700;font-size:14px}.admin-photo-note{font-size:11px;color:#e1efff;margin:3px 0 0;max-width:190px}@media(max-width:760px){body.admin-sidebar-mode header{gap:8px;padding-right:10px}body.admin-sidebar-mode header .nav{display:none}body.admin-sidebar-mode .admin-profile{gap:0}body.admin-sidebar-mode .admin-profile-info{display:block;min-width:0}body.admin-sidebar-mode .admin-profile-info .welcome{font-size:12px;white-space:nowrap}body.admin-sidebar-mode .admin-photo-note{display:none}body.admin-sidebar-mode .admin-photo-avatar{width:46px;height:46px}}body.admin-sidebar-mode .admin-profile{display:flex}body.admin-sidebar-mode .admin-profile{background:transparent!important;border:0!important;padding:0!important;margin:0!important;box-shadow:none!important}body.admin-sidebar-mode .admin-profile-info .welcome{background:transparent!important;border:0!important;padding:0!important;color:#fff!important;box-shadow:none!important} header{display:flex;align-items:center;gap:14px}header>.logo{order:0;flex:none}header>div:nth-child(2){order:1}header>.school{order:2;margin-left:auto;text-align:center}header>.admin-profile{order:3;margin-left:auto;flex:none}@media(max-width:600px){header{justify-content:space-between}header>.school{display:none}header>.admin-profile{margin-left:auto}header>.logo{margin-right:2px}body.admin-sidebar-mode .admin-profile-info{display:block;min-width:0}body.admin-sidebar-mode .admin-profile-info .welcome{font-size:12px;white-space:nowrap}body.admin-sidebar-mode .admin-photo-note{display:none}}
+/* Admin-only premium dashboard refresh. Student portal styles and markup remain untouched. */
+body.admin-sidebar-mode #dashboard{color:#102b50}
+body.admin-sidebar-mode #dashboardTitle{display:none}
+body.admin-sidebar-mode .admin-hero{display:grid;grid-template-columns:minmax(240px,1.2fr) minmax(260px,1fr);gap:18px;align-items:stretch;margin:0 0 18px}
+body.admin-sidebar-mode .admin-hero-main{position:relative;overflow:hidden;border-radius:18px;padding:24px clamp(18px,3vw,34px);color:#fff;background:linear-gradient(115deg,#052e70,#0756b7 68%,#0a78df);box-shadow:0 12px 28px #063c7b30}
+body.admin-sidebar-mode .admin-hero-main:after{content:"";position:absolute;width:210px;height:210px;border:28px solid #ffffff12;border-radius:50%;right:-55px;top:-90px}
+body.admin-sidebar-mode .admin-kicker{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:#ffdc68;font-weight:800}
+body.admin-sidebar-mode .admin-hero-main h1{font-size:clamp(24px,3vw,38px);line-height:1.15;margin:10px 0}
+body.admin-sidebar-mode .admin-hero-main p{margin:0;color:#e5f1ff;font-size:14px}
+body.admin-sidebar-mode .admin-hero-side{border-radius:18px;padding:20px;background:linear-gradient(135deg,#fff9e8,#fff);border:1px solid #f0d78a;display:flex;flex-direction:column;justify-content:center}
+body.admin-sidebar-mode .admin-hero-side strong{font-size:20px;color:#07509b}
+body.admin-sidebar-mode .admin-hero-side span{font-size:13px;color:#5b6f87;margin-top:6px}
+body.admin-sidebar-mode .admin-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:0 0 18px}
+body.admin-sidebar-mode .admin-metric{border-radius:14px;padding:16px;background:#fff;border:1px solid #d7e8fa;box-shadow:0 5px 16px #064b9810;min-width:0}
+body.admin-sidebar-mode .admin-metric small{display:block;color:#58708c;font-size:12px}
+body.admin-sidebar-mode .admin-metric strong{display:block;color:#07509b;font-size:25px;margin-top:5px}
+body.admin-sidebar-mode .admin-metric.pending{background:linear-gradient(130deg,#fff8e8,#fff);border-color:#f0d58a}
+body.admin-sidebar-mode .admin-metric.pending strong{color:#b77908}
+body.admin-sidebar-mode .admin-quick{border:1px solid #d7e8fa;background:#fff;border-radius:16px;padding:16px;margin:0 0 18px;box-shadow:0 5px 16px #064b9810}
+body.admin-sidebar-mode .admin-quick h3{margin:0 0 12px;color:#07509b;font-size:18px}
+body.admin-sidebar-mode .admin-quick-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px}
+body.admin-sidebar-mode .admin-quick-grid button{border:1px solid #d3e5f8;background:linear-gradient(145deg,#f5faff,#eaf4ff);border-radius:11px;padding:13px 8px;color:#064b98;font:inherit;font-size:13px;font-weight:750;min-height:68px;cursor:pointer;transition:transform .18s,box-shadow .18s,border-color .18s}
+body.admin-sidebar-mode .admin-quick-grid button:hover{transform:translateY(-2px);border-color:#77b5f2;box-shadow:0 7px 16px #07509b1c}
+body.admin-sidebar-mode .admin-layout{grid-template-columns:230px minmax(0,1fr);border:1px solid #d5e6f8;border-radius:16px;box-shadow:0 8px 25px #064b9812}
+body.admin-sidebar-mode .admin-side-nav{background:linear-gradient(180deg,#062e70,#07509b);padding:12px;gap:6px}
+body.admin-sidebar-mode .admin-side-nav button{color:#eaf4ff;border-radius:9px;padding:12px 11px;font-size:13px}
+body.admin-sidebar-mode .admin-side-nav button:hover{background:#ffffff18}
+body.admin-sidebar-mode .admin-side-nav button.active{background:linear-gradient(100deg,#ffd45a,#ffb900);color:#082e62;box-shadow:0 4px 12px #001c4c40}
+body.admin-sidebar-mode .admin-side-content{padding:18px;background:#f7fbff}
+body.admin-sidebar-mode .admin-side-content>.pending-item,body.admin-sidebar-mode .admin-side-content>#approvalPanel{border:1px solid #d6e7f8;border-radius:13px;box-shadow:0 4px 14px #064b980b;padding:16px;background:#fff}
+body.admin-sidebar-mode #approvalPanel h3,body.admin-sidebar-mode #adminTools h3{color:#07509b}
+body.admin-sidebar-mode .admin-side-content .pending-item h4{color:#07509b}
+body.admin-sidebar-mode .admin-side-content .field input,body.admin-sidebar-mode .admin-side-content .field select,body.admin-sidebar-mode .admin-side-content textarea{border-radius:9px}
+body.admin-sidebar-mode .admin-side-content button{transition:filter .15s,transform .15s}
+body.admin-sidebar-mode .admin-side-content button:hover{filter:brightness(.97)}
+@media(max-width:760px){body.admin-sidebar-mode .admin-hero{grid-template-columns:1fr}body.admin-sidebar-mode .admin-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}body.admin-sidebar-mode .admin-quick-grid{grid-template-columns:repeat(2,minmax(0,1fr))}body.admin-sidebar-mode .admin-layout{grid-template-columns:1fr}body.admin-sidebar-mode .admin-side-nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border-right:0;border-bottom:1px solid #c9e1fa}body.admin-sidebar-mode .admin-side-nav button{font-size:12px}}
+@media(max-width:420px){body.admin-sidebar-mode .admin-metrics{grid-template-columns:1fr 1fr}body.admin-sidebar-mode .admin-side-content{padding:9px}body.admin-sidebar-mode .admin-side-content>.pending-item,body.admin-sidebar-mode .admin-side-content>#approvalPanel{padding:11px}}
+</style></head>
 <body>
 <header><div class="logo">AKS</div><div><div class="brand">School<span>Desk</span></div><div class="tagline">Smart School Management System</div></div><div class="school">RAJA AJAY KUMAR SINGH INTER COLLEGE<small>PARAUR SHAHJAHANPUR UTTAR PRADESH (242127)</small></div><div class="admin-profile" id="adminProfile"><button type="button" class="admin-photo-avatar" id="changeAdminPhoto" aria-label="Change Admin Profile Photo" title="Change profile photo"><img id="adminProfilePhoto" alt="Admin profile photo" src="" hidden><span id="adminProfilePlaceholder" aria-hidden="true">👤</span></button><input id="adminPhotoInput" type="file" accept="image/jpeg,image/png,image/webp" hidden><div class="admin-profile-info"><p class="welcome" id="welcome">Welcome, Abhishek Kumar Singh</p><p class="admin-photo-note" id="adminPhotoNote">फोटो बदलने के लिए फोटो पर क्लिक करें।</p></div></div></header>
 <main>
@@ -182,7 +220,25 @@ body.portal-mode .pending-item{box-shadow:0 4px 16px rgba(6,75,152,.08)}
 <div class="login-card" id="loginCard"><div class="login-title"><h1 id="formTitle">🛡 &nbsp;Login</h1><p id="formSubtitle">कृपया अपना विवरण भरकर लॉगिन करें</p></div><div class="message error" id="message" role="alert" aria-live="polite"></div>
 <div class="student-tabs" id="studentTabs"><button type="button" class="tab active" data-mode="login">Student Sign In</button><button type="button" class="tab" data-mode="signup">Student Sign Up</button></div>
 <form id="loginForm"><div class="field"><select id="loginType" aria-label="Login type"><option value="admin">Admin Login</option><option value="student">Student Login</option></select></div><div class="field" id="nameField" hidden><input id="studentName" autocomplete="name" placeholder="Student Full Name" aria-label="Student full name"></div><div class="field"><input id="username" autocomplete="username" placeholder="Enter ID" required aria-label="Login ID"></div><div class="field" id="emailField" hidden><input id="studentEmail" type="email" autocomplete="email" placeholder="Email Address" aria-label="Email address"></div><div class="field passwrap" id="passwordField"><input id="password" type="password" autocomplete="current-password" placeholder="Enter Password" required aria-label="Password"><button class="eye" id="toggle" type="button" aria-label="Show password">◉</button></div><div class="field" id="confirmField" hidden><input id="confirmPassword" type="password" autocomplete="new-password" placeholder="Confirm Password" aria-label="Confirm password"></div><p id="signupPasswordNote" class="register-note" hidden>अभी पासवर्ड बनाने की जरूरत नहीं है। Admission Form Approve होने के बाद आपके ईमेल पर सुरक्षित लिंक आएगा, जहाँ आप अपना नया पासवर्ड बनाएँगे।</p><div class="options" id="loginOptions"><label class="remember"><input id="remember" type="checkbox"> Remember Me</label><button class="link" id="forgot" type="button">Forgot Password?</button></div><button class="submit" id="submitBtn" type="submit">⇥ &nbsp; Login</button></form><div class="or">OR</div><div class="back"><button id="back" type="button">← &nbsp; Back to Choose List</button></div></div>
-<div class="dashboard" id="dashboard"><h2 id="dashboardTitle">Admin Dashboard</h2><div id="approvalPanel"><h3>Student Approval Requests</h3><p id="pendingSummary">Pending applications: 0</p><div id="pendingList"></div></div>
+<div class="dashboard" id="dashboard"><h2 id="dashboardTitle">Admin Dashboard</h2>
+<section class="admin-overview" aria-label="Admin dashboard overview">
+ <div class="admin-hero">
+  <div class="admin-hero-main"><div class="admin-kicker">SchoolDesk • Admin Control Center</div><h1>Welcome to SchoolDesk</h1><p>Manage · Monitor · Grow &nbsp; | &nbsp; विद्यालय प्रबंधन एक ही जगह</p></div>
+  <div class="admin-hero-side"><strong>राजा अजय कुमार सिंह इंटर कॉलेज</strong><span>परौर, शाहजहाँपुर, उत्तर प्रदेश</span><span>आज के स्कूल प्रबंधन कार्यों का त्वरित अवलोकन</span></div>
+ </div>
+ <div class="admin-metrics">
+  <div class="admin-metric pending"><small>लंबित आवेदन / Pending Requests</small><strong id="adminPendingMetric">—</strong></div>
+  <div class="admin-metric"><small>Admin Management Sections</small><strong>10+</strong></div>
+  <div class="admin-metric"><small>Quick Actions</small><strong>5</strong></div>
+ </div>
+ <div class="admin-quick"><h3>⚡ Quick Actions / त्वरित कार्य</h3><div class="admin-quick-grid">
+  <button type="button" data-admin-jump="Add Student">➕<br>New Admission</button>
+  <button type="button" data-admin-jump="Student Approvals">✓<br>Approvals</button>
+  <button type="button" data-admin-jump="Publish Notice">📢<br>Publish Notice</button>
+  <button type="button" data-admin-jump="Academic Management">📚<br>Academic Records</button>
+  <button type="button" data-admin-jump="All Students Register">👥<br>Student Register</button>
+ </div></div>
+</section><div id="approvalPanel"><h3>Student Approval Requests</h3><p id="pendingSummary">Pending applications: 0</p><div id="pendingList"></div></div>
 <section id="adminTools" hidden>
 <h3>School Management Tools</h3>
 <div class="pending-item">
@@ -998,7 +1054,22 @@ if(!document.documentElement.dataset.schooldeskHindiTransliterationGlobal){
 
 $("loginType").value="student";setMode("login");
 })();
-</script></body></html>
+</script><script>
+/* Admin-only dashboard enhancements: quick actions call the existing sidebar navigation. */
+(()=>{const root=document.getElementById("dashboard");if(!root)return;
+ root.addEventListener("click",event=>{const quick=event.target.closest("[data-admin-jump]");if(!quick)return;
+  const wanted=quick.getAttribute("data-admin-jump");
+  const nav=[...root.querySelectorAll(".admin-side-nav button")];
+  const target=nav.find(button=>button.textContent.toLowerCase().includes(wanted.toLowerCase()));
+  if(target){target.click();target.scrollIntoView({behavior:"smooth",block:"nearest"});}
+ });
+ const summary=document.getElementById("pendingSummary"),metric=document.getElementById("adminPendingMetric");
+ if(summary&&metric){const sync=()=>{const match=summary.textContent.match(/(\d+)/);metric.textContent=match?match[1]:"0";};
+  sync();new MutationObserver(sync).observe(summary,{childList:true,subtree:true,characterData:true});
+ }
+})();
+</script>
+</body></html>
 
 
 /* Keep the school logo on the far left and Admin photo on the far right. */
