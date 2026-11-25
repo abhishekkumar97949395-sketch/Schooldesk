@@ -211,6 +211,48 @@ body.admin-sidebar-mode .admin-side-content button{transition:filter .15s,transf
 body.admin-sidebar-mode .admin-side-content button:hover{filter:brightness(.97)}
 @media(max-width:760px){body.admin-sidebar-mode .admin-hero{grid-template-columns:1fr}body.admin-sidebar-mode .admin-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}body.admin-sidebar-mode .admin-quick-grid{grid-template-columns:repeat(2,minmax(0,1fr))}body.admin-sidebar-mode .admin-layout{grid-template-columns:1fr}body.admin-sidebar-mode .admin-side-nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border-right:0;border-bottom:1px solid #c9e1fa}body.admin-sidebar-mode .admin-side-nav button{font-size:12px}}
 @media(max-width:420px){body.admin-sidebar-mode .admin-metrics{grid-template-columns:1fr 1fr}body.admin-sidebar-mode .admin-side-content{padding:9px}body.admin-sidebar-mode .admin-side-content>.pending-item,body.admin-sidebar-mode .admin-side-content>#approvalPanel{padding:11px}}
+/* Keep the school logo on the far left and Admin photo on the far right. */
+body.admin-sidebar-mode header{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:12px!important;
+  width:100%!important;
+  box-sizing:border-box!important;
+}
+body.admin-sidebar-mode header>.logo{
+  order:0!important;
+  flex:0 0 auto!important;
+  margin-right:8px!important;
+}
+body.admin-sidebar-mode header>div:nth-child(2){
+  order:1!important;
+  flex:0 1 auto!important;
+  min-width:0!important;
+}
+body.admin-sidebar-mode header>.school{
+  order:2!important;
+  flex:1 1 auto!important;
+  min-width:0!important;
+  margin:0 12px 0 auto!important;
+  text-align:center!important;
+}
+body.admin-sidebar-mode header>.admin-profile{
+  order:3!important;
+  display:flex!important;
+  flex:0 0 auto!important;
+  margin:0 0 0 auto!important;
+  align-self:center!important;
+}
+@media(max-width:760px){
+  body.admin-sidebar-mode header{gap:8px!important;padding-right:10px!important}
+  body.admin-sidebar-mode header>.school{display:none!important}
+  body.admin-sidebar-mode header>div:nth-child(2){flex:1 1 auto!important}
+  body.admin-sidebar-mode header>.admin-profile{margin-left:auto!important}
+  body.admin-sidebar-mode header>.admin-profile .admin-photo-avatar{
+    width:48px!important;height:48px!important;min-width:48px!important;
+  }
+}
 </style></head>
 <body>
 <header><div class="logo">AKS</div><div><div class="brand">School<span>Desk</span></div><div class="tagline">Smart School Management System</div></div><div class="school">RAJA AJAY KUMAR SINGH INTER COLLEGE<small>PARAUR SHAHJAHANPUR UTTAR PRADESH (242127)</small></div><div class="admin-profile" id="adminProfile"><button type="button" class="admin-photo-avatar" id="changeAdminPhoto" aria-label="Change Admin Profile Photo" title="Change profile photo"><img id="adminProfilePhoto" alt="Admin profile photo" src="" hidden><span id="adminProfilePlaceholder" aria-hidden="true">👤</span></button><input id="adminPhotoInput" type="file" accept="image/jpeg,image/png,image/webp" hidden><div class="admin-profile-info"><p class="welcome" id="welcome">Welcome, Abhishek Kumar Singh</p><p class="admin-photo-note" id="adminPhotoNote">फोटो बदलने के लिए फोटो पर क्लिक करें।</p></div></div></header>
@@ -1105,47 +1147,3 @@ $("loginType").value="student";setMode("login");
 })();
 </script>
 </body></html>
-
-
-/* Keep the school logo on the far left and Admin photo on the far right. */
-body.admin-sidebar-mode header{
-  display:flex!important;
-  align-items:center!important;
-  justify-content:space-between!important;
-  gap:12px!important;
-  width:100%!important;
-  box-sizing:border-box!important;
-}
-body.admin-sidebar-mode header>.logo{
-  order:0!important;
-  flex:0 0 auto!important;
-  margin-right:8px!important;
-}
-body.admin-sidebar-mode header>div:nth-child(2){
-  order:1!important;
-  flex:0 1 auto!important;
-  min-width:0!important;
-}
-body.admin-sidebar-mode header>.school{
-  order:2!important;
-  flex:1 1 auto!important;
-  min-width:0!important;
-  margin:0 12px 0 auto!important;
-  text-align:center!important;
-}
-body.admin-sidebar-mode header>.admin-profile{
-  order:3!important;
-  display:flex!important;
-  flex:0 0 auto!important;
-  margin:0 0 0 auto!important;
-  align-self:center!important;
-}
-@media(max-width:760px){
-  body.admin-sidebar-mode header{gap:8px!important;padding-right:10px!important}
-  body.admin-sidebar-mode header>.school{display:none!important}
-  body.admin-sidebar-mode header>div:nth-child(2){flex:1 1 auto!important}
-  body.admin-sidebar-mode header>.admin-profile{margin-left:auto!important}
-  body.admin-sidebar-mode header>.admin-profile .admin-photo-avatar{
-    width:48px!important;height:48px!important;min-width:48px!important;
-  }
-}
